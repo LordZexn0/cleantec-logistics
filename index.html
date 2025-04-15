@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3498db">
+    <meta name="description" content="CleanTec Logistics - Smart inventory management solutions integrating IoT, digital workflows, and smart logistics">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CleanTec Logistics">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <title>CleanTec Logistics | Smart Inventory Management Solutions</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Add custom styles for the login button and modal */
+        .login-btn {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .login-btn:hover {
+            background: #fff;
+            color: #3498db;
+        }
+        #adminDashboard {
+            display: none;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .contact-card {
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .unread {
+            background-color: #fff;
+            border-left: 4px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">CleanTec Logistics</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><button class="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Admin Login</button></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Login Modal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginModalLabel">Admin Login</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="loginForm">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Contact Form Submissions</h2>
+                <button class="btn btn-outline-danger" id="logoutBtn">Logout</button>
+            </div>
+            <div id="contacts"></div>
+        </div>
+
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Transform Your Inventory Management</h1>
+                <p>Comprehensive solutions integrating IoT, digital workflows, and smart logistics for modern businesses</p>
+                <a href="#contact" class="cta-button">Get Started</a>
+            </div>
+        </section>
+
+        <section id="solutions" class="solutions">
+            <h2>Our Solutions</h2>
+            <div class="solutions-content">
+                <div class="solution-card">
+                    <i class="fas fa-truck"></i>
+                    <h3>Logistics & Supply Chain</h3>
+                    <ul>
+                        <li>Real-time shipment tracking</li>
+                        <li>Automated route optimization</li>
+                        <li>Inventory flow management</li>
+                        <li>Supplier integration</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <i class="fas fa-warehouse"></i>
+                    <h3>Digital Warehouse Management</h3>
+                    <ul>
+                        <li>Smart inventory tracking</li>
+                        <li>Automated storage systems</li>
+                        <li>Digital picking and packing</li>
+                        <li>Space optimization</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <i class="fas fa-microchip"></i>
+                    <h3>IoT & Smart Tracking</h3>
+                    <ul>
+                        <li>RFID and sensor integration</li>
+                        <li>Real-time location tracking</li>
+                        <li>Condition monitoring</li>
+                        <li>Predictive maintenance</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Custom Digital Workflows</h3>
+                    <ul>
+                        <li>Process automation</li>
+                        <li>Custom integration solutions</li>
+                        <li>Workflow optimization</li>
+                        <li>API development</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <h2>Key Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Real-time Analytics</h3>
+                    <p>Monitor inventory levels, track shipments, and analyze performance metrics in real-time</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-robot"></i>
+                    <h3>Smart Automation</h3>
+                    <p>Automate routine tasks and optimize operations with AI-powered systems</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-network-wired"></i>
+                    <h3>IoT Integration</h3>
+                    <p>Connect and manage IoT devices for comprehensive asset tracking</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-sync"></i>
+                    <h3>Seamless Integration</h3>
+                    <p>Integrate with existing systems and third-party applications</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="benefits" class="benefits">
+            <h2>Business Benefits</h2>
+            <div class="benefits-content">
+                <div class="benefit-item">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Operational Efficiency</h3>
+                    <p>Streamline operations and reduce manual work with automated processes</p>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-clock"></i>
+                    <h3>Time Savings</h3>
+                    <p>Reduce time spent on inventory management and tracking</p>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>Cost Reduction</h3>
+                    <p>Minimize inventory holding costs and optimize resource utilization</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2>Contact Us</h2>
+            <div class="contact-form">
+                <form>
+                    <input type="text" placeholder="Name" required>
+                    <input type="email" placeholder="Email" required>
+                    <input type="tel" placeholder="Phone">
+                    <select required>
+                        <option value="">Select Solution</option>
+                        <option value="logistics">Logistics & Supply Chain</option>
+                        <option value="warehouse">Digital Warehouse Management</option>
+                        <option value="iot">IoT & Smart Tracking</option>
+                        <option value="workflow">Custom Digital Workflows</option>
+                    </select>
+                    <textarea placeholder="Message" required></textarea>
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CleanTec Logistics</h3>
+                <p>Your trusted partner in smart inventory management solutions</p>
+            </div>
+            <div class="footer-section">
+                <h3>Solutions</h3>
+                <ul>
+                    <li><a href="#solutions">Logistics & Supply Chain</a></li>
+                    <li><a href="#solutions">Digital Warehouse</a></li>
+                    <li><a href="#solutions">IoT Tracking</a></li>
+                    <li><a href="#solutions">Custom Workflows</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: info@cleanteclogistics.com</p>
+                <p>Phone: (123) 456-7890</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CleanTec Logistics. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // Add to Home Screen prompt
+        let deferredPrompt;
+        const addBtn = document.createElement('button');
+        addBtn.style.display = 'none';
+        addBtn.textContent = 'Install App';
+        document.body.appendChild(addBtn);
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            addBtn.style.display = 'block';
+        });
+
+        addBtn.addEventListener('click', () => {
+            addBtn.style.display = 'none';
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                }
+                deferredPrompt = null;
+            });
+        });
+
+        // Admin functionality
+        let token = localStorage.getItem('adminToken');
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        const adminDashboard = document.getElementById('adminDashboard');
+        const mainContent = document.querySelectorAll('section');
+        const contactsContainer = document.getElementById('contacts');
+
+        // Check if admin is logged in
+        if (token) {
+            showAdminDashboard();
+            fetchContacts();
+        }
+
+        // Login Form Handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    token = data.token;
+                    localStorage.setItem('adminToken', token);
+                    loginModal.hide();
+                    showAdminDashboard();
+                    fetchContacts();
+                } else {
+                    alert('Invalid credentials');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Login failed');
+            }
+        });
+
+        // Logout Handler
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('adminToken');
+            token = null;
+            hideAdminDashboard();
+        });
+
+        function showAdminDashboard() {
+            mainContent.forEach(section => section.style.display = 'none');
+            adminDashboard.style.display = 'block';
+            document.querySelector('header').style.display = 'none';
+        }
+
+        function hideAdminDashboard() {
+            mainContent.forEach(section => section.style.display = 'block');
+            adminDashboard.style.display = 'none';
+            document.querySelector('header').style.display = 'flex';
+        }
+
+        // Fetch Contacts
+        async function fetchContacts() {
+            try {
+                const response = await fetch('/api/contacts', {
+                    headers: {
+                        'Authorization': token
+                    }
+                });
+                const contacts = await response.json();
+                displayContacts(contacts);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Display Contacts
+        function displayContacts(contacts) {
+            contactsContainer.innerHTML = contacts.map(contact => `
+                <div class="card contact-card ${!contact.isRead ? 'unread' : ''} mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">${contact.name}</h5>
+                            <small class="text-muted">${new Date(contact.createdAt).toLocaleString()}</small>
+                        </div>
+                        <h6 class="card-subtitle mb-2 text-muted">${contact.email} | ${contact.phone || 'No phone'}</h6>
+                        <p class="card-text"><strong>Solution:</strong> ${contact.solution}</p>
+                        <p class="card-text">${contact.message}</p>
+                        ${!contact.isRead ? `
+                            <button class="btn btn-sm btn-primary mark-read" data-id="${contact._id}">
+                                Mark as Read
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            // Add event listeners for "Mark as Read" buttons
+            document.querySelectorAll('.mark-read').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const id = button.dataset.id;
+                    try {
+                        const response = await fetch(`/api/contacts/${id}/read`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': token
+                            }
+                        });
+                        if (response.ok) {
+                            fetchContacts();
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -9,6 +9,7 @@ const cors = require('cors');
 const connectDB = require('./db');
 const Admin = require('./models/Admin');
 const Contact = require('./models/Contact');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +24,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve static files from the root directory
 app.use(express.static(__dirname));
+
+// Rate limiting for login attempts
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // 5 attempts per windowMs
+    message: { message: 'Too many login attempts, please try again later' }
+});
 
 // JWT Middleware
 const verifyToken = (req, res, next) => {
@@ -64,29 +72,43 @@ app.post('/api/admin/register', async (req, res) => {
     }
 });
 
-app.post('/api/admin/login', async (req, res) => {
+app.post('/api/admin/login', loginLimiter, async (req, res) => {
     try {
         const { username, password } = req.body;
+        
+        // Basic input validation
+        if (!username || !password) {
+            return res.status(400).json({ message: 'Please provide both username and password' });
+        }
+
         const admin = await Admin.findOne({ username });
         
         if (!admin) {
+            // Generic error message to prevent username enumeration
             return res.status(401).json({ message: 'Invalid credentials' });
         }
         
         const validPassword = await bcrypt.compare(password, admin.password);
         if (!validPassword) {
+            // Generic error message to prevent password guessing
             return res.status(401).json({ message: 'Invalid credentials' });
         }
         
+        // Generate token with shorter expiration
         const token = jwt.sign(
             { id: admin._id },
             process.env.JWT_SECRET || 'your-secret-key',
-            { expiresIn: '24h' }
+            { expiresIn: '1h' } // Token expires in 1 hour
         );
         
-        res.json({ token, username: admin.username });
+        res.json({ 
+            token, 
+            username: admin.username,
+            expiresIn: 3600 // Token expiration in seconds
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('Login error:', error);
+        res.status(500).json({ message: 'An error occurred during login' });
     }
 });
 
@@ -99,7 +121,7 @@ app.post('/api/contact', async (req, res) => {
         // Send email notification
         const mailOptions = {
             from: process.env.EMAIL_USER,
-            to: process.env.ADMIN_EMAIL,
+            to: 'zohairmansari@gmail.com',
             subject: 'New Contact Form Submission',
             text: `New contact form submission from ${req.body.name} (${req.body.email})`
         };
